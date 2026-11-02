@@ -175,7 +175,7 @@ for epoch in range(epochs):
         result, mu, log_var = model(images)
 
         # loss
-        recons_loss = F.mse_loss(result, images, reduction="mean")
+        recons_loss = 0.5 * F.mse_loss(result, images, reduction="mean") + 0.5 * F.l1_loss(result, images, reduction="mean")
         kld_loss = -0.5 * torch.mean(torch.sum(1 + log_var - mu.pow(2) - log_var.exp(), dim=1))
         loss = recons_loss + 0.0001 * kld_loss # tested 0.001
 
@@ -201,7 +201,7 @@ for epoch in range(epochs):
 
             result, mu, log_var = model(images)
 
-            recons_loss = F.mse_loss(result, images, reduction="mean")
+            recons_loss = 0.5 * F.mse_loss(result, images, reduction="mean") + 0.5 * F.l1_loss(result, images, reduction="mean")
             kld_loss = -0.5 * torch.mean(torch.sum(
                 1 + log_var - mu.pow(2) - log_var.exp(), dim=1
             ))
@@ -246,7 +246,7 @@ with torch.no_grad():
 
         result, mu, log_var = model(images)
 
-        recons_loss = F.mse_loss(result, images, reduction="mean")
+        recons_loss = 0.5 * F.mse_loss(result, images, reduction="mean") + 0.5 * F.l1_loss(result, images, reduction="mean")
         kld_loss = -0.5 * torch.mean(torch.sum(
             1 + log_var - mu.pow(2) - log_var.exp(), dim=1
         ))
